@@ -1,6 +1,8 @@
 from fastapi import FastAPI, UploadFile, File
 import os
 import shutil
+from app.speech import transcribe_audio
+from app.llm import generate_notes
 
 app = FastAPI()
 
@@ -12,9 +14,23 @@ def home():
 
 @app.post("/upload")
 async def upload_audio(file: UploadFile = File(...)):
-    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
-    
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    try:
+        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
 
-    return {"filename": file.filename, "status": "uploaded successfully"}
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        # 🎤 Transcription
+        transcript = transcribe_audio(file_path)
+
+        # 🧠 AI Notes
+        notes = generate_notes(transcript)
+
+        return {
+            "filename": file.filename,
+            "transcript": transcript,
+            "notes": notes
+        }
+
+    except Exception as e:
+        return {"error": str(e)}
