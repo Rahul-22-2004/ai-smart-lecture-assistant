@@ -4,6 +4,7 @@ import shutil
 from app.speech import transcribe_audio
 # from app.llm import generate_notes
 from app.llm import generate_notes, generate_quiz, generate_flashcards
+from app.pdf_utils import create_pdf
 
 app = FastAPI()
 
@@ -28,13 +29,15 @@ async def upload_audio(file: UploadFile = File(...)):
         notes = generate_notes(transcript)
         quiz = generate_quiz(transcript)
         flashcards = generate_flashcards(transcript)
-
+        pdf_path = create_pdf(file.filename, transcript, notes, quiz, flashcards)
+        
         return {
             "filename": file.filename,
             "transcript": transcript,
             "notes": notes,
             "quiz": quiz,
-            "flashcards": flashcards
+            "flashcards": flashcards,
+            "pdf_path": pdf_path
         }
 
     except Exception as e:
