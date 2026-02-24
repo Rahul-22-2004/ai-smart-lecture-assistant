@@ -5,8 +5,12 @@ from app.speech import transcribe_audio
 # from app.llm import generate_notes
 from app.llm import generate_notes, generate_quiz, generate_flashcards
 from app.pdf_utils import create_pdf
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+
+app.mount("/app", StaticFiles(directory="static", html=True), name="static")
+app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
 
 UPLOAD_FOLDER = "uploads"
 
@@ -37,7 +41,7 @@ async def upload_audio(file: UploadFile = File(...)):
             "notes": notes,
             "quiz": quiz,
             "flashcards": flashcards,
-            "pdf_path": pdf_path
+            "pdf_path": "/" + pdf_path
         }
 
     except Exception as e:
