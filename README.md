@@ -2,7 +2,7 @@
 
 An AI-powered lecture intelligence system that converts spoken lecture audio into structured learning material — including transcripts, summarized notes, quizzes, flashcards, and downloadable PDF study resources.
 
-This project was developed as part of the **AICTE + Edunet Foundation AI/ML Internship** to demonstrate practical application of Speech Recognition, Natural Language Processing, and Generative AI in education technology.
+<!-- This project was developed as part of the **AICTE + Edunet Foundation AI/ML Internship** to demonstrate practical application of Speech Recognition, Natural Language Processing, and Generative AI in education technology. -->
 
 ---
 
@@ -88,7 +88,7 @@ ai-lecture-assistant/
 ### ✅ 1. Clone Repository
 
 ```bash
-git clone https://github.com/<your-username>/ai-smart-lecture-assistant.git
+git clone https://github.com/Rahul-22-2004/ai-smart-lecture-assistant.git
 cd ai-smart-lecture-assistant
 ```
 
@@ -204,7 +204,7 @@ The system generates:
 * Vector search for lecture retrieval
 
 ---
-
+<!-- 
 ## 🎓 Internship Context
 
 This project was developed during the **AICTE + Edunet Foundation AI & ML Internship** to showcase:
@@ -214,29 +214,29 @@ This project was developed during the **AICTE + Edunet Foundation AI & ML Intern
 * Generative AI application design
 * Real-world EdTech problem solving
 
----
+--- -->
 
-## 👨‍💻 Author
+<!-- ## 👨‍💻 Author
 
 **Rahul D Gowda**
 Final Year Computer Science Engineering Student
 AI/ML & Backend Development Enthusiast
 
----
+--- -->
 
-## ⭐ Acknowledgements
+<!-- ## ⭐ Acknowledgements
 
 * Edunet Foundation
 * AICTE Internship Program
 * Sarvam AI Platform
 * OpenAI Whisper
 
----
+--- -->
 
-## 📜 License
+<!-- ## 📜 License
 
 This project is intended for academic and demonstration purposes.
 
----
+--- -->
 
 ⭐ If you found this project interesting, consider giving it a star!
