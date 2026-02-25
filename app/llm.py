@@ -14,10 +14,18 @@ def generate_notes(transcript: str):
     prompt = f"""
     You are an academic lecture assistant.
 
-    From the transcript below generate:
+    Return output ONLY in this format:
 
-    1. Short summary (5 lines)
-    2. Structured notes with headings and bullet points
+    SUMMARY:
+    - bullet points
+
+    NOTES:
+    ### Heading
+    - bullet points
+
+    No greetings.
+    No explanations.
+    No extra text.
 
     Transcript:
     {transcript}
@@ -33,13 +41,17 @@ def generate_notes(transcript: str):
 
 def generate_quiz(transcript: str):
     prompt = f"""
-    Generate 5 MCQ questions from this lecture transcript.
+    Generate 5 MCQs.
 
-    Each question must include:
-    - Question
-    - 4 options (A,B,C,D)
-    - Correct answer
-    - Short explanation
+    Format STRICTLY:
+
+    Q:
+    A)
+    B)
+    C)
+    D)
+    Answer:
+    Explanation:
 
     Transcript:
     {transcript}
@@ -55,9 +67,10 @@ def generate_quiz(transcript: str):
 
 def generate_flashcards(transcript: str):
     prompt = f"""
-    Generate 5 study flashcards from this lecture.
+    Generate 5 flashcards.
 
-    Format:
+    Format STRICTLY:
+
     Q:
     A:
 

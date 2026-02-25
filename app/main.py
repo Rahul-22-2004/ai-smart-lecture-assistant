@@ -9,7 +9,7 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
-app.mount("/app", StaticFiles(directory="static", html=True), name="static")
+# app.mount("/app", StaticFiles(directory="static", html=True), name="static")
 app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
 
 UPLOAD_FOLDER = "uploads"
