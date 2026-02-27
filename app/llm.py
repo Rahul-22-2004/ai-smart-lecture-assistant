@@ -14,7 +14,7 @@ def generate_notes(transcript: str):
     prompt = f"""
     You are an academic lecture assistant.
 
-    Return output ONLY in this format:
+    Return ONLY this structure:
 
     SUMMARY:
     - bullet points
@@ -34,16 +34,17 @@ def generate_notes(transcript: str):
     response = client.chat.completions.create(
         model="sarvam-m",
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.3
+        temperature=0.2
     )
 
     return response.choices[0].message.content
 
 def generate_quiz(transcript: str):
+
     prompt = f"""
     Generate 5 MCQs.
 
-    Format STRICTLY:
+    Strict format:
 
     Q:
     A)
@@ -60,16 +61,17 @@ def generate_quiz(transcript: str):
     response = client.chat.completions.create(
         model="sarvam-m",
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.4
+        temperature=0.3
     )
 
     return response.choices[0].message.content
 
 def generate_flashcards(transcript: str):
+
     prompt = f"""
     Generate 5 flashcards.
 
-    Format STRICTLY:
+    Strict format:
 
     Q:
     A:
@@ -81,7 +83,7 @@ def generate_flashcards(transcript: str):
     response = client.chat.completions.create(
         model="sarvam-m",
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.4
+        temperature=0.3
     )
 
     return response.choices[0].message.content

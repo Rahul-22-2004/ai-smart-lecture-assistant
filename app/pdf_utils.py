@@ -15,7 +15,8 @@ def create_pdf(filename, transcript, notes, quiz, flashcards):
     def add_section(title, text):
         story.append(Paragraph(f"<b>{title}</b>", styles["Heading1"]))
         for line in text.split("\n"):
-            story.append(Paragraph(line, styles["Normal"]))
+            if line.strip():
+                story.append(Paragraph(line, styles["Normal"]))
         story.append(Spacer(1, 12))
 
     add_section("Transcript", transcript)
@@ -24,4 +25,5 @@ def create_pdf(filename, transcript, notes, quiz, flashcards):
     add_section("Flashcards", flashcards)
 
     doc.build(story)
+
     return pdf_path
