@@ -2,6 +2,7 @@ fastapi
 uvicorn
 streamlit
 requests
-python-dotenv
 reportlab
 python-multipart
+openai>=1.0.0
+python-dotenv
