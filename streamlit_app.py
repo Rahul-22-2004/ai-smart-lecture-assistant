@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "/upload"
+API_URL = "https://ai-smart-lecture-assistant-eibj.onrender.com/upload"
 
 st.set_page_config(page_title="AI Smart Lecture Assistant", layout="wide")
 
