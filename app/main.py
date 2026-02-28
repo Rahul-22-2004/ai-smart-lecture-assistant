@@ -7,12 +7,23 @@ from app.llm import generate_notes, generate_quiz, generate_flashcards
 from app.pdf_utils import create_pdf
 from fastapi.staticfiles import StaticFiles
 import json
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 # Create required folders if they don't exist
 os.makedirs("uploads", exist_ok=True)
 os.makedirs("outputs", exist_ok=True)
 
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # can restrict later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # app.mount("/app", StaticFiles(directory="static", html=True), name="static")
 app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
@@ -21,7 +32,7 @@ UPLOAD_FOLDER = "uploads"
 
 @app.get("/")
 def home():
-    return {"message": "AI Smart Lecture Assistant is running 🚀"}
+    return RedirectResponse("https://ai-smart-lecture-assistant-1.streamlit.app/")
 
 @app.post("/upload")
 async def upload_audio(file: UploadFile = File(...)):
