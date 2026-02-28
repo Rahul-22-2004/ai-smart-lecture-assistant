@@ -8,6 +8,10 @@ from app.pdf_utils import create_pdf
 from fastapi.staticfiles import StaticFiles
 import json
 
+# Create required folders if they don't exist
+os.makedirs("uploads", exist_ok=True)
+os.makedirs("outputs", exist_ok=True)
+
 app = FastAPI()
 
 # app.mount("/app", StaticFiles(directory="static", html=True), name="static")
