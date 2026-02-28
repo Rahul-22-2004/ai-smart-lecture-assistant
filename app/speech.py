@@ -1,32 +1,32 @@
 import requests
 import os
 
-API_KEY = os.getenv("LLM_API_KEY")
+SARVAM_API_KEY = os.getenv("LLM_API_KEY")
 
 def transcribe_audio(file_path):
-    url = "https://api.openai.com/v1/audio/transcriptions"
+    url = "https://api.sarvam.ai/speech-to-text"
 
     headers = {
-        "Authorization": f"Bearer {API_KEY}"
+        "Authorization": f"Bearer {SARVAM_API_KEY}"
     }
 
     with open(file_path, "rb") as audio_file:
-        response = requests.post(
-            url,
-            headers=headers,
-            files={"file": audio_file},
-            data={"model": "whisper-1"}
-        )
+        files = {
+            "file": audio_file
+        }
+
+        response = requests.post(url, headers=headers, files=files)
+
+    if response.status_code != 200:
+        raise Exception(f"Sarvam Transcription Error: {response.text}")
 
     result = response.json()
 
-    # Debug-safe parsing
-    if response.status_code != 200:
-        raise Exception(f"Transcription API Error: {result}")
-
-    # Some APIs return "text"
+    # Safely extract transcript
     if "text" in result:
         return result["text"]
 
-    # Fallback: print full result for debugging
-    raise Exception(f"Unexpected transcription response: {result}")
+    if "transcript" in result:
+        return result["transcript"]
+
+    raise Exception(f"Unexpected Sarvam response: {result}")
