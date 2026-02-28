@@ -1,22 +1,23 @@
-import whisper
+import requests
 import os
 
-# ⭐ Load once when app starts (important for performance)
-print("Loading Whisper model...")
-model = whisper.load_model("base")
-print("Whisper model loaded ✅")
+API_KEY = os.getenv("LLM_API_KEY")
 
+def transcribe_audio(file_path):
+    url = "https://api.openai.com/v1/audio/transcriptions"
 
-def transcribe_audio(file_path: str) -> str:
-    """
-    Convert audio file to text using Whisper
-    """
-    try:
-        if not os.path.exists(file_path):
-            return "File not found"
+    with open(file_path, "rb") as audio:
+        response = requests.post(
+            url,
+            headers={
+                "Authorization": f"Bearer {API_KEY}"
+            },
+            files={
+                "file": audio
+            },
+            data={
+                "model": "whisper-1"
+            }
+        )
 
-        result = model.transcribe(file_path)
-        return result["text"]
-
-    except Exception as e:
-        return f"Error during transcription: {str(e)}"
+    return response.json()["text"]
