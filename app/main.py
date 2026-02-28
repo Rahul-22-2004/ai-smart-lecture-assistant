@@ -43,7 +43,10 @@ async def upload_audio(file: UploadFile = File(...)):
             shutil.copyfileobj(file.file, buffer)
 
         # 🎤 Transcription
-        transcript = transcribe_audio(file_path)
+        try:
+            transcript = transcribe_audio(file_path)
+        except Exception as e:
+            return {"error": str(e)}
 
         # 🧠 AI generation
         notes = generate_notes(transcript)
