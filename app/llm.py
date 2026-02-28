@@ -42,17 +42,18 @@ def generate_notes(transcript: str):
 def generate_quiz(transcript: str):
 
     prompt = f"""
-    Generate 5 MCQs.
+    Generate 5 MCQs in JSON.
 
-    Strict format:
+    Return ONLY JSON list like:
 
-    Q:
-    A)
-    B)
-    C)
-    D)
-    Answer:
-    Explanation:
+    [
+    {{
+    "question": "",
+    "options": ["","","",""],
+    "answer": "",
+    "explanation": ""
+    }}
+    ]
 
     Transcript:
     {transcript}
@@ -69,12 +70,16 @@ def generate_quiz(transcript: str):
 def generate_flashcards(transcript: str):
 
     prompt = f"""
-    Generate 5 flashcards.
+    Generate exactly 5 flashcards.
 
-    Strict format:
+    Return ONLY:
 
-    Q:
-    A:
+    Q: question
+    A: answer
+
+    No introductions.
+    No markdown.
+    No extra text.
 
     Transcript:
     {transcript}

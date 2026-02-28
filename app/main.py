@@ -6,6 +6,7 @@ from app.speech import transcribe_audio
 from app.llm import generate_notes, generate_quiz, generate_flashcards
 from app.pdf_utils import create_pdf
 from fastapi.staticfiles import StaticFiles
+import json
 
 app = FastAPI()
 
@@ -31,7 +32,11 @@ async def upload_audio(file: UploadFile = File(...)):
 
         # 🧠 AI generation
         notes = generate_notes(transcript)
-        quiz = generate_quiz(transcript)
+        quiz_raw = generate_quiz(transcript)
+        try:
+            quiz = json.loads(quiz_raw)
+        except:
+            quiz = []
         flashcards = generate_flashcards(transcript)
         pdf_path = create_pdf(file.filename, transcript, notes, quiz, flashcards)
         
