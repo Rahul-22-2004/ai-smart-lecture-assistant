@@ -7,14 +7,9 @@ ASSEMBLYAI_API_KEY = os.getenv("ASSEMBLYAI_API_KEY")
 UPLOAD_URL = "https://api.assemblyai.com/v2/upload"
 TRANSCRIPT_URL = "https://api.assemblyai.com/v2/transcript"
 
-headers = {
-    "authorization": ASSEMBLYAI_API_KEY,
-    "content-type": "application/json"
-}
-
 def transcribe_audio(file_path):
 
-    # 1️⃣ Upload file
+    # 1️⃣ Upload audio file
     with open(file_path, "rb") as f:
         upload_response = requests.post(
             UPLOAD_URL,
@@ -29,13 +24,16 @@ def transcribe_audio(file_path):
 
     audio_url = upload_json["upload_url"]
 
-    # 2️⃣ Request transcription (IMPORTANT FIX HERE)
+    # 2️⃣ Request transcription (UPDATED FORMAT)
     transcript_response = requests.post(
         TRANSCRIPT_URL,
-        headers=headers,
+        headers={
+            "authorization": ASSEMBLYAI_API_KEY,
+            "content-type": "application/json"
+        },
         json={
             "audio_url": audio_url,
-            "speech_model": "universal-2"   # ✅ REQUIRED
+            "speech_models": ["universal-2"]  # ✅ Correct format
         }
     )
 
@@ -46,7 +44,7 @@ def transcribe_audio(file_path):
 
     transcript_id = transcript_json["id"]
 
-    # 3️⃣ Poll until complete
+    # 3️⃣ Poll until transcription completes
     while True:
         polling = requests.get(
             f"{TRANSCRIPT_URL}/{transcript_id}",
