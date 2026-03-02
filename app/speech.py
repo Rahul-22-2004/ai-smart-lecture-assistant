@@ -1,44 +1,25 @@
-import requests
 import os
-import mimetypes
+from dotenv import load_dotenv
+from openai import OpenAI
 
-SARVAM_API_KEY = os.getenv("LLM_API_KEY")
+load_dotenv()
 
-def transcribe_audio(file_path):
+client = OpenAI(
+    api_key=os.getenv("LLM_API_KEY"),
+    base_url="https://api.sarvam.ai/v1"
+)
 
-    url = "https://api.sarvam.ai/v1/audio/transcriptions"
+def transcribe_audio(file_path: str):
 
-    headers = {
-        "Authorization": f"Bearer {SARVAM_API_KEY}"
-    }
+    try:
+        with open(file_path, "rb") as audio_file:
 
-    mime_type, _ = mimetypes.guess_type(file_path)
+            transcription = client.audio.transcriptions.create(
+                file=audio_file,
+                model="whisper-1"   # IMPORTANT
+            )
 
-    if mime_type is None:
-        mime_type = "audio/mpeg"
+        return transcription.text
 
-    with open(file_path, "rb") as audio_file:
-        files = {
-            "file": (os.path.basename(file_path), audio_file, mime_type)
-        }
-
-        data = {
-            "model": "sarvam-stt"
-        }
-
-        response = requests.post(
-            url,
-            headers=headers,
-            files=files,
-            data=data
-        )
-
-    if response.status_code != 200:
-        raise Exception(f"Sarvam Transcription Error: {response.text}")
-
-    result = response.json()
-
-    if "text" in result:
-        return result["text"]
-
-    raise Exception(f"Unexpected Sarvam response: {result}")
+    except Exception as e:
+        raise Exception(f"Sarvam Transcription Error: {str(e)}")
