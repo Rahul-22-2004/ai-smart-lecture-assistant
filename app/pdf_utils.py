@@ -45,8 +45,8 @@ def create_pdf(filename, transcript, notes, quiz, flashcards):
         for i, q in enumerate(quiz):
             story.append(Paragraph(f"<b>Q{i+1}:</b> {q['question']}", styles["Normal"]))
             story.append(Spacer(1, 5))
-            for option in q["options"]:
-                story.append(Paragraph(option, styles["Normal"]))
+            for idx, option in enumerate(q["options"]):
+                story.append(Paragraph(f"{chr(65+idx)}. {option}", styles["Normal"]))
             story.append(Spacer(1, 5))
             story.append(Paragraph(f"<b>Answer:</b> {q['answer']}", styles["Normal"]))
             story.append(Spacer(1, 15))

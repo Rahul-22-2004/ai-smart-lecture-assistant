@@ -50,11 +50,7 @@ async def upload_audio(file: UploadFile = File(...)):
 
         # 🧠 AI generation
         notes = generate_notes(transcript)
-        quiz_raw = generate_quiz(transcript)
-        try:
-            quiz = json.loads(quiz_raw)
-        except:
-            quiz = []
+        quiz = generate_quiz(transcript)
         flashcards = generate_flashcards(transcript)
         pdf_path = create_pdf(file.filename, transcript, notes, quiz, flashcards)
         
