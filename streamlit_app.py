@@ -110,5 +110,6 @@ if st.session_state.data:
         st.markdown(data["flashcards"])
 
     # -------- PDF Download --------
-    pdf_url = "http://127.0.0.1:8000" + data["pdf_path"]
+    BACKEND_URL = "https://ai-smart-lecture-assistant-eibj.onrender.com"
+    pdf_url = BACKEND_URL + data["pdf_path"]
     st.markdown(f"[📄 Download PDF]({pdf_url})")
