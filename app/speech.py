@@ -13,7 +13,7 @@ headers = {
 
 def transcribe_audio(file_path):
 
-    # Step 1: Upload file
+    # 1️⃣ Upload audio
     with open(file_path, "rb") as f:
         upload_response = requests.post(
             UPLOAD_URL,
@@ -21,18 +21,28 @@ def transcribe_audio(file_path):
             data=f
         )
 
-    audio_url = upload_response.json()["upload_url"]
+    upload_json = upload_response.json()
 
-    # Step 2: Request transcription
+    if "upload_url" not in upload_json:
+        raise Exception(f"AssemblyAI Upload Error: {upload_json}")
+
+    audio_url = upload_json["upload_url"]
+
+    # 2️⃣ Request transcription
     transcript_response = requests.post(
         TRANSCRIPT_URL,
         json={"audio_url": audio_url},
         headers=headers
     )
 
-    transcript_id = transcript_response.json()["id"]
+    transcript_json = transcript_response.json()
 
-    # Step 3: Poll until done
+    if "id" not in transcript_json:
+        raise Exception(f"AssemblyAI Transcript Request Error: {transcript_json}")
+
+    transcript_id = transcript_json["id"]
+
+    # 3️⃣ Poll until complete
     while True:
         polling = requests.get(
             f"{TRANSCRIPT_URL}/{transcript_id}",
@@ -43,6 +53,6 @@ def transcribe_audio(file_path):
             return polling["text"]
 
         if polling["status"] == "error":
-            raise Exception(f"AssemblyAI Error: {polling}")
+            raise Exception(f"AssemblyAI Processing Error: {polling}")
 
         time.sleep(2)
